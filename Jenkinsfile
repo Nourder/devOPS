@@ -6,40 +6,32 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Nourder/devOPS.git'
+                git 'https://github.com/Nourder/devOPS.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    sh "docker build -t ${IMAGE_NAME} ."
-                }
+                bat 'docker build -t %IMAGE_NAME% .'
             }
         }
 
         stage('Run Container') {
             steps {
-                script {
-                    // حذف الحاوية القديمة إذا كانت موجودة
-                    sh "docker rm -f python-print-app || true"
-
-                    // تشغيل الحاوية الجديدة
-                    sh "docker run --name python-print-app ${IMAGE_NAME}"
-                }
+                bat 'docker rm -f python-print-app || exit 0'
+                bat 'docker run -d --name python-print-app -p 5000:5000 %IMAGE_NAME%'
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline انتهى بنجاح!'
+            echo 'Pipeline terminé avec succès !'
         }
         failure {
-            echo 'Pipeline فشل.'
+            echo 'Pipeline échoué.'
         }
     }
 }
