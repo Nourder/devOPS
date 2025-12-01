@@ -6,6 +6,7 @@ pipeline {
     stages {
         stage('Checkout') {          // المرحلة 1: استرجاع الكود
             steps {
+                git branch : 'main, url:
                 // استرجاع الكود من GitHub
                 git 'https://github.com/Nourder/devOPS.git'
             }
