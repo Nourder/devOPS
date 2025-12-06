@@ -6,16 +6,15 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Nourder/devOPS.git'
+                git branch: 'main', url: 'https://github.com/Nourder/devOPS.git', credentialsId: 'GITHUB_CREDENTIALS_ID'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker version'        // vérification
+                sh 'docker version || echo "Docker non disponible sur cet agent"'
                 sh "docker build -t ${IMAGE_NAME} ."
             }
         }
