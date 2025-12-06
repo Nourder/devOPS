@@ -9,20 +9,19 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/Nourder/devOPS.git'
-
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t %IMAGE_NAME% .'
+                sh "docker build -t ${IMAGE_NAME} ."
             }
         }
 
         stage('Run Container') {
             steps {
-                bat 'docker rm -f python-print-app || exit 0'
-                bat 'docker run -d --name python-print-app -p 5000:5000 %IMAGE_NAME%'
+                sh "docker rm -f python-print-app || true"
+                sh "docker run -d --name python-print-app -p 5000:5000 ${IMAGE_NAME}"
             }
         }
     }
