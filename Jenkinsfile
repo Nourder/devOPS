@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'docker:latest'
-            args '--privileged -v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent any
 
     environment {
         IMAGE_NAME = "python-print-app:latest"
@@ -20,6 +15,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
+                sh 'docker version'        // vérification
                 sh "docker build -t ${IMAGE_NAME} ."
             }
         }
