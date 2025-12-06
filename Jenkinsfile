@@ -8,7 +8,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Nourder/devOPS.git', credentialsId: 'GITHUB_CREDENTIALS_ID'
+                // Clonage du repo depuis GitHub
+                git branch: 'main', url: 'https://github.com/Nourder/devOPS.git'
             }
         }
 
